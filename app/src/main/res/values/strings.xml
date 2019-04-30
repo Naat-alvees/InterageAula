@@ -5,4 +5,7 @@
     <string name="btnEntrar">Entrar</string>
     <string name="btnEntrarGoogle">Entrar com o Google</string>
     <string name="txtCadastrar">Não tenho cadastro</string>
+    <string name="txtDisciplina1">Português</string>
+    <string name="txtDisciplina2">Matemática</string>
+    <string name="txtDisciplina3">Biologia</string>
 </resources>
