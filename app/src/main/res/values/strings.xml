@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">InterageAula</string>
+    <string name="txtEmail">Email</string>
+    <string name="txtSenha">Senha</string>
+    <string name="btnEntrar">Entrar</string>
+    <string name="btnEntrarGoogle">Entrar com o Google</string>
+    <string name="txtCadastrar">Não tenho cadastro</string>
 </resources>
