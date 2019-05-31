@@ -16,5 +16,7 @@
     <string name="txtRoteiro2data">21/05/2019</string>
     <string name="txtDisciplina1titulo">Português</string>
     <string name="txtDisciplina1descricao">Sua descrição aqui</string>
+    <string name="txtAdicionaDisciplina">Digite aqui o código da disciplina informada pelo seu professor.</string>
+    <string name="btnAdicionar">Adicionar</string>
 
 </resources>
