@@ -7,7 +7,7 @@
     tools:context=".TelaDisciplinas">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/buttonPort"
         android:layout_width="330dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/buttonMat"
         android:layout_width="330dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -33,10 +33,10 @@
         android:text="@string/txtDisciplina2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonPort" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/buttonBio"
         android:layout_width="330dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMat"
         app:layout_constraintVertical_bias="0.0" />
 
     <android.support.design.widget.FloatingActionButton
