@@ -6,35 +6,54 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+
+import java.util.Hashtable;
 
 public class TelaDisciplinas extends AppCompatActivity implements View.OnClickListener{
-    private Button btnPort, btnMat, btnBio;
     private FloatingActionButton btnAdicionar;
+    private String codigoDisciplina, disciplina;
+    private Hashtable<String, String> codigos;
+    private LinearLayout layoutBotoes;
+    private Button btnDisciplina;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_disciplinas);
-
-        btnPort = (Button) findViewById(R.id.buttonPort);
-        btnPort.setOnClickListener(this);
-
-        btnMat = (Button) findViewById(R.id.buttonMat);
-        btnMat.setOnClickListener(this);
-
-        btnBio = (Button) findViewById(R.id.buttonBio);
-        btnBio.setOnClickListener(this);
+        codigos =  new Hashtable<String, String>();
+        disciplina = null;
 
         btnAdicionar = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         btnAdicionar.setOnClickListener(this);
+
+        layoutBotoes = (LinearLayout) findViewById(R.id.layoutBotoes);
+
+        codigos.put("123", "Portugues");
+        codigos.put("matematica01", "Matematica");
+        codigos.put("biologia01", "Biologia");
+
+        Intent i = getIntent();
+
+        if(i != null){
+            Bundle codigoRecebido = new Bundle();
+            codigoRecebido = i.getExtras();
+
+            if(codigoRecebido != null){
+                codigoDisciplina = codigoRecebido.getString("CodigoDaDisciplina","Erro");
+                disciplina = codigos.get(codigoDisciplina);
+                if (disciplina != null) {
+                    btnDisciplina = new Button(this);
+                    btnDisciplina.setText(disciplina);
+                    layoutBotoes.addView(btnDisciplina);
+                }
+            }
+        }
     }
 
     @Override
     public void onClick(View v) {
-        if(v == btnPort){
-            Intent i = new Intent(this, TelaRoteiros.class);
-            startActivity(i);
-        }
         if(v == btnAdicionar){
             Intent i = new Intent(this, AdicionaDisciplina.class);
             startActivity(i);
