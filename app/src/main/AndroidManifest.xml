@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdicionaDisciplina"></activity>
+        <activity android:name=".TelaCadastro"></activity>
+        <activity android:name=".AdicionaDisciplina" />
         <activity android:name=".TelaConteudos" />
         <activity android:name=".TelaRoteiros" />
         <activity android:name=".TelaDisciplinas" />

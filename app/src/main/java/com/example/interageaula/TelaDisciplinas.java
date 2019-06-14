@@ -5,9 +5,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.support.v7.widget.Toolbar;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -19,11 +25,16 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
     private LinearLayout layoutBotoes;
     private Button btnDisciplina;
 
-
+    private FirebaseAuth autentificacao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_disciplinas);
+        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        //Configuração toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("InterageAula");
+        setSupportActionBar(toolbar);
 
         btnAdicionar = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         btnAdicionar.setOnClickListener(this);
@@ -99,6 +110,36 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
             btnDisciplina.setText(lista.get(i).getNome());
             btnDisciplina.setOnClickListener(this);
             layoutBotoes.addView(btnDisciplina);
+        }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch (item.getItemId()){
+            case R.id.MenuSair:
+               deslogarUsuario();
+               break;
+            case R.id.MenuConfiguracao:
+//                abrirConfiguracoes();
+//                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void deslogarUsuario(){
+        try{
+            autentificacao.signOut();
+            startActivity(new Intent(getApplicationContext(),TelaLogin.class));
+            finish();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

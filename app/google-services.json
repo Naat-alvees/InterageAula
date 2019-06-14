@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "176545052922",
+    "firebase_url": "https://interageaula-73ca8.firebaseio.com",
+    "project_id": "interageaula-73ca8",
+    "storage_bucket": "interageaula-73ca8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176545052922:android:a1ff73d9f0da188c",
+        "android_client_info": {
+          "package_name": "com.example.interageaula"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176545052922-inh2hmrllb3hfqba0ceasgbrto6pe4o6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.interageaula",
+            "certificate_hash": "f52ddcf3aabb4bce506af679b771a3d4def2a4db"
+          }
+        },
+        {
+          "client_id": "176545052922-vq4katgfs428pbd5s3qb49q98kvld30o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCchA_BqHZHmPpLeqCukV3rpyYp-m7s_zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176545052922-vq4katgfs428pbd5s3qb49q98kvld30o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

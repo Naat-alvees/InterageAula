@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/MenuConfiguracao"
+        android:title="Configuracao"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/MenuSair"
+        android:title="Sair"
+        app:showAsAction="never" />
+</menu>
