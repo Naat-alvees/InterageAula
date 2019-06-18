@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -73,24 +74,37 @@ public class BancoDados extends SQLiteOpenHelper {
         valores.put("nome", disciplina.getNome());
         valores.put("codigo", disciplina.getCodigo());
         db.insert("tabelaDisciplinaCodigo", "", valores);
+        Log.d("TAG",disciplina.getNome());
+        Log.d("TAG",disciplina.getCodigo());
+        db.insert("tabelaDisciplinaCodigo","",valores);
         //Log.d("BANCO","Inserido com sucesso");
     }
 
     public String buscarDisciplina(String codigo) {
         String query = "SELECT * FROM tabelaDisciplinaCodigo WHERE codigo='" + codigo + "'";
+    public String[] buscarDisciplina(String codigo){
+        String mensagem[] = new String[2];
+
+        String query =  "SELECT * FROM tabelaDisciplinaCodigo WHERE codigo='"+codigo+"'";
 
         Cursor c = db.rawQuery(query, null);
         String disciplina = "";
         if (c != null) {
             Log.d("TAG", "Nao deu nulo");
+        Cursor c = db.rawQuery(query,null);
+
+        if (c.getCount() != 0){
             c.moveToFirst();
             disciplina = c.getString(c.getColumnIndex("nome"));
             Log.d("TAG", disciplina);
         } else {
             Log.d("TAG", "Deu nulo");
+            mensagem[0] = "1";
+            mensagem[1] = c.getString(c.getColumnIndex("nome"));
+        }else {
+            mensagem[0] = "-1";
         }
-
-        return disciplina;
+        return mensagem;
     }
 
     public void inserirRoteiroDisciplina(Roteiro roteiro) {
