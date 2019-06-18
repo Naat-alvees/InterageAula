@@ -90,7 +90,7 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
 
             Bundle enviadisciplina = new Bundle();
 
-            enviadisciplina.putString("enviadisciplina", btnDisciplina.getText().toString());
+            enviadisciplina.putString("enviadisciplina", String.valueOf(btnDisciplina.getId()));
             i.putExtras(enviadisciplina);
             startActivity(i);
         }
@@ -106,6 +106,7 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
             btnDisciplina = new Button(this);
             btnDisciplina.setText(lista.get(i).getNome());
             btnDisciplina.setOnClickListener(this);
+            btnDisciplina.setId(Integer.parseInt(lista.get(i).getCodigo()));
             layoutBotoes.addView(btnDisciplina);
 
         }

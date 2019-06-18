@@ -8,15 +8,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+
 public class TelaRoteiros extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth autentificacao;
     private LinearLayout layoutRot1;
-    private String nomeDisciplina, roteiros;
+    private String codigoDisciplina;
     private Roteiro roteiro;
+    private String roteiros;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,13 +36,11 @@ public class TelaRoteiros extends AppCompatActivity implements View.OnClickListe
         layoutRot1.setOnClickListener(this);
 
         BancoDados bd = new BancoDados(getApplicationContext());
-        Roteiro roteiro = new Roteiro();
+        roteiro = new Roteiro();
         roteiro.setTituloRoteiro("Substantivo");
         roteiro.setSubtituloRoteiro("Roteiro 1");
         roteiro.setDataRoteiro("18/06/2019");
-
-        //insere roteiro na disciplina
-        bd.inserirRoteiroDisciplina(roteiro);
+        bd.inserirRoteiroDisciplina("123", roteiro);
 
         Intent i = getIntent();
 
@@ -47,12 +49,8 @@ public class TelaRoteiros extends AppCompatActivity implements View.OnClickListe
             disciplinaRecebida = i.getExtras();
 
             if(disciplinaRecebida != null){
-                nomeDisciplina = disciplinaRecebida.getString("enviadisciplina","Erro");
-                roteiros =
-                roteiro = new Roteiro();
-
-                roteiro.setTituloRoteiro(nomeDisciplina);
-
+                codigoDisciplina = disciplinaRecebida.getString("enviadisciplina","Erro");
+                listarRoteiros(bd,codigoDisciplina);
 
             }
         }
@@ -93,6 +91,19 @@ public class TelaRoteiros extends AppCompatActivity implements View.OnClickListe
             finish();
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    public void listarRoteiros(BancoDados bd, String codigoDisciplina){
+        layoutRot1.removeAllViews();
+        ArrayList<Roteiro> lista = new ArrayList<>();
+
+        lista = bd.buscarRoteiroDisciplinas(codigoDisciplina);
+
+        for (int i = 0; i < lista.size(); i++){
+            layoutRot1 = new LinearLayout(this);
+
+
         }
     }
 }
