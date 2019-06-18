@@ -1,8 +1,19 @@
 package com.example.interageaula;
 
+import java.util.ArrayList;
+
 public class Disciplina {
     private String nome;
     private String codigo;
+    private ArrayList<Roteiro> roteiros;
+
+    public ArrayList<Roteiro> getRoteiros() {
+        return roteiros;
+    }
+
+    public void setRoteiros(ArrayList<Roteiro> roteiros) {
+        this.roteiros = roteiros;
+    }
 
     public String getCodigo() {
         return codigo;
@@ -19,4 +30,6 @@ public class Disciplina {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+
 }

@@ -95,6 +95,14 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
         if(v == btnAdicionar){
             Intent i = new Intent(this, AdicionaDisciplina.class);
             startActivity(i);
+        }if (v == btnDisciplina){
+            Intent i = new Intent(this,TelaRoteiros.class);
+
+            Bundle enviadisciplina = new Bundle();
+
+            enviadisciplina.putString("enviadisciplina", btnDisciplina.getText().toString());
+            i.putExtras(enviadisciplina);
+            startActivity(i);
         }
     }
 
@@ -110,6 +118,7 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
             btnDisciplina.setText(lista.get(i).getNome());
             btnDisciplina.setOnClickListener(this);
             layoutBotoes.addView(btnDisciplina);
+
         }
     }
 
