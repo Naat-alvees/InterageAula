@@ -80,25 +80,16 @@ public class BancoDados extends SQLiteOpenHelper {
         //Log.d("BANCO","Inserido com sucesso");
     }
 
-    public String buscarDisciplina(String codigo) {
-        String query = "SELECT * FROM tabelaDisciplinaCodigo WHERE codigo='" + codigo + "'";
+
     public String[] buscarDisciplina(String codigo){
         String mensagem[] = new String[2];
 
         String query =  "SELECT * FROM tabelaDisciplinaCodigo WHERE codigo='"+codigo+"'";
 
         Cursor c = db.rawQuery(query, null);
-        String disciplina = "";
-        if (c != null) {
-            Log.d("TAG", "Nao deu nulo");
-        Cursor c = db.rawQuery(query,null);
 
         if (c.getCount() != 0){
             c.moveToFirst();
-            disciplina = c.getString(c.getColumnIndex("nome"));
-            Log.d("TAG", disciplina);
-        } else {
-            Log.d("TAG", "Deu nulo");
             mensagem[0] = "1";
             mensagem[1] = c.getString(c.getColumnIndex("nome"));
         }else {
@@ -133,8 +124,8 @@ public class BancoDados extends SQLiteOpenHelper {
     }
 
     public String[] buscarRoteiro(String disciplina) {
-        
-        String query = "SELECT * FROM tabelaDisciplinaCodigo WHERE tituloRoteiro='" + tituloRoteiro + "'";
+        String[] arrayRoteiro = new String[5];
+        String query = "SELECT * FROM tabelaDisciplinaCodigo WHERE tituloRoteiro='" + disciplina + "'";
 
         Cursor c = db.rawQuery(query, null);
         String roteiro = "";
@@ -147,7 +138,7 @@ public class BancoDados extends SQLiteOpenHelper {
             Log.d("TAG", "Deu nulo");
         }
 
-        return roteiro;
+        return arrayRoteiro;
     }
 
 }
