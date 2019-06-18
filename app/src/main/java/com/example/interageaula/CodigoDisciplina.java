@@ -12,17 +12,6 @@ public class CodigoDisciplina {
         this.codigo = "";
     }
 
-     /*private String geraCodigo(){
-        Random numerosAleatorios = new Random();
-        String letras = "";
-        int index = -1;
-        for (int i = 0; i < 4; i++){
-            index = numerosAleatorios.nextInt(26);
-            letras += 'a'+index;
-        }
-
-        return letras;
-    }*/
 
     public void adicionaDisciplina(String nome, String codigo){
         this.codigo = codigo;

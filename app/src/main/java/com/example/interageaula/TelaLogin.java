@@ -83,7 +83,7 @@ public class TelaLogin extends Activity implements View.OnClickListener {
                     startActivity(new Intent(getApplicationContext(),TelaDisciplinas.class));
                     finish();
                 }else {
-                    Toast.makeText(TelaLogin.this,"Erro ao fazer login",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TelaLogin.this,"Usuário ou senha incorreto!",Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }

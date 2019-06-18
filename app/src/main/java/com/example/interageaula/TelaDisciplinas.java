@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,71 +21,60 @@ import java.util.Hashtable;
 
 public class TelaDisciplinas extends AppCompatActivity implements View.OnClickListener{
     private FloatingActionButton btnAdicionar;
-    private String codigoDisciplina, disciplina;
-    private Hashtable<String, String> codigos;
     private LinearLayout layoutBotoes;
     private Button btnDisciplina;
-
     private FirebaseAuth autentificacao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_disciplinas);
-        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        //Configuração toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("InterageAula");
-        setSupportActionBar(toolbar);
 
         btnAdicionar = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         btnAdicionar.setOnClickListener(this);
 
         layoutBotoes = (LinearLayout) findViewById(R.id.layoutBotoes);
 
+        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
         BancoDados bd = new BancoDados(getApplicationContext());
+
+        //Configuração toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("InterageAula");
+        setSupportActionBar(toolbar);
+        //Fim da Configuração toolbar
+
+        //Insere codigos de disciplinas
         CodigoDisciplina c1 = new CodigoDisciplina();
         c1.adicionaDisciplina("Matematica","123");
-
         CodigoDisciplina c2 = new CodigoDisciplina();
         c2.adicionaDisciplina("Portugues", "321");
-
-
-
         //bd.deleta();
         bd.inserirDisciplina(c1);
         bd.inserirDisciplina(c2);
+        // fim inserção codigo
 
-//        ArrayList<Disciplina> lista = new ArrayList<>();
-//
-//        lista = bd.buscarDisciplinasAluno();
-//
-//        for (int i = 0; i < lista.size(); i++){
-//            btnDisciplina = new Button(this);
-//            btnDisciplina.setText(lista.get(i).getNome());
-//            btnDisciplina.setOnClickListener(this);
-//            layoutBotoes.addView(btnDisciplina);
-//        }
+        this.listaDisciplinas(bd);
 
-        this.lista(bd);
         Intent i = getIntent();
-
         if(i != null){
             Bundle codigoRecebido = new Bundle();
             codigoRecebido = i.getExtras();
-
             if(codigoRecebido != null){
-                codigoDisciplina = codigoRecebido.getString("CodigoDaDisciplina","Erro");
-                disciplina = bd.buscarDisciplina(codigoDisciplina);
-                if (disciplina != "") {
+                String codigoDisciplina = codigoRecebido.getString("CodigoDaDisciplina","Erro");
+                String[] resultadoBD = bd.buscarDisciplina(codigoDisciplina);
+                if (resultadoBD[0] == "1") {
                     Disciplina d = new Disciplina();
-                    d.setNome(disciplina);
+                    d.setNome(resultadoBD[1]);
                     d.setCodigo(codigoDisciplina);
                     bd.inserirDisciplinaAluno(d);
-                    this.lista(bd);
+                    this.listaDisciplinas(bd);
 //                    btnDisciplina = new Button(this);
 //                    btnDisciplina.setText(disciplina);
 //                    btnDisciplina.setOnClickListener(this);
 //                    layoutBotoes.addView(btnDisciplina);
+                } else {
+                    Toast.makeText(TelaDisciplinas.this,"Código incorreto!",Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -92,20 +82,19 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        if(v == btnAdicionar){
+        if(v == btnAdicionar) {
             Intent i = new Intent(this, AdicionaDisciplina.class);
             startActivity(i);
         }
     }
 
-    public void lista(BancoDados bd){
+    public void listaDisciplinas(BancoDados bd){
         layoutBotoes.removeAllViews();
         ArrayList<Disciplina> lista = new ArrayList<>();
 
         lista = bd.buscarDisciplinasAluno();
 
         for (int i = 0; i < lista.size(); i++){
-            Log.d("TAG","lista: "+lista.get(i).getNome());
             btnDisciplina = new Button(this);
             btnDisciplina.setText(lista.get(i).getNome());
             btnDisciplina.setOnClickListener(this);
@@ -121,7 +110,6 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-
         switch (item.getItemId()){
             case R.id.MenuSair:
                deslogarUsuario();
