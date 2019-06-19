@@ -69,10 +69,6 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
                     d.setCodigo(codigoDisciplina);
                     bd.inserirDisciplinaAluno(d);
                     this.listaDisciplinas(bd);
-//                    btnDisciplina = new Button(this);
-//                    btnDisciplina.setText(disciplina);
-//                    btnDisciplina.setOnClickListener(this);
-//                    layoutBotoes.addView(btnDisciplina);
                 } else {
                     Toast.makeText(TelaDisciplinas.this,"Código incorreto!",Toast.LENGTH_SHORT).show();
                 }
@@ -82,6 +78,7 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
+        Log.d("TAG",Integer.toString(v.getId()));
         if(v == btnAdicionar) {
             Intent i = new Intent(this, AdicionaDisciplina.class);
             startActivity(i);
@@ -108,7 +105,6 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
             btnDisciplina.setOnClickListener(this);
             btnDisciplina.setId(Integer.parseInt(lista.get(i).getCodigo()));
             layoutBotoes.addView(btnDisciplina);
-
         }
     }
 

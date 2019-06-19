@@ -18,5 +18,6 @@
     <string name="txtDisciplina1descricao">Sua descrição aqui</string>
     <string name="txtAdicionaDisciplina">Digite aqui o código da disciplina informada pelo seu professor.</string>
     <string name="btnAdicionar">Adicionar</string>
+    <string name="txtResetar">Resetar aplicativo</string>
 
 </resources>
