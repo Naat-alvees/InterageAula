@@ -1,4 +1,4 @@
-package com.example.interageaula;
+package com.example.interageaula.bd;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.example.interageaula.model.CodigoDisciplina;
+import com.example.interageaula.model.Disciplina;
+import com.example.interageaula.model.Roteiro;
 
 import java.util.ArrayList;
 

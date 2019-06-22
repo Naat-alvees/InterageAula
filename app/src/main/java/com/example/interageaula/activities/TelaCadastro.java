@@ -1,9 +1,8 @@
-package com.example.interageaula;
+package com.example.interageaula.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +10,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.interageaula.R;
+import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
+import com.example.interageaula.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -82,7 +84,7 @@ public class TelaCadastro extends Activity{
                 if (task.isSuccessful()){
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(TelaCadastro.this,"Cadastro efetuado com sucesso",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),TelaLogin.class));
+                    startActivity(new Intent(getApplicationContext(), TelaLogin.class));
                     finish();
                 }else {
                     progressBar.setVisibility(View.GONE);

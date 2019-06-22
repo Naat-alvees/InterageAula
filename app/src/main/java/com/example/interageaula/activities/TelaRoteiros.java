@@ -1,4 +1,4 @@
-package com.example.interageaula;
+package com.example.interageaula.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.example.interageaula.R;
+import com.example.interageaula.TelaConteudos;
 import com.example.interageaula.activities.TelaLogin;
 import com.example.interageaula.bd.BancoDados;
 import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
@@ -62,7 +64,7 @@ public class TelaRoteiros extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if(v == layoutRot1){
-            Intent i = new Intent(this,TelaConteudos.class);
+            Intent i = new Intent(this, TelaConteudos.class);
             startActivity(i);
         }
     }

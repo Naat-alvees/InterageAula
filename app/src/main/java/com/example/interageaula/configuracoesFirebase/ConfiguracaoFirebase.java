@@ -1,4 +1,4 @@
-package com.example.interageaula;
+package com.example.interageaula.configuracoesFirebase;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;

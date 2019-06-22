@@ -1,4 +1,4 @@
-package com.example.interageaula;
+package com.example.interageaula.model;
 
 import java.util.HashMap;
 import java.util.Random;

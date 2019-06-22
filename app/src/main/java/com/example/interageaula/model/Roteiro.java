@@ -1,9 +1,14 @@
-package com.example.interageaula;
+package com.example.interageaula.model;
 
 public class Roteiro {
     private String tituloRoteiro;
     private String subtituloRoteiro;
     private String dataRoteiro;
+
+
+    public Roteiro() {
+    }
+
 
     public String getTituloRoteiro() {
         return tituloRoteiro;

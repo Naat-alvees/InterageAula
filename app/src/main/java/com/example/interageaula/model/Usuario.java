@@ -1,4 +1,4 @@
-package com.example.interageaula;
+package com.example.interageaula.model;
 
 public class Usuario {
     private String id;

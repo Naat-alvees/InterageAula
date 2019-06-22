@@ -1,14 +1,24 @@
-package com.example.interageaula;
+package com.example.interageaula.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Disciplina {
     private String nome;
     private String codigo;
 
-    public Disciplina() {
+    public List<Roteiro> getRoteiros() {
+        return roteiros;
     }
 
+    public void setRoteiros(List<Roteiro> roteiros) {
+        this.roteiros = roteiros;
+    }
+
+    private List<Roteiro> roteiros = new ArrayList<>();
+
+    public Disciplina() {
+    }
 
     public String getCodigo() {
         return codigo;

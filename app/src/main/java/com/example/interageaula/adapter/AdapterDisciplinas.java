@@ -1,4 +1,4 @@
-package com.example.interageaula;
+package com.example.interageaula.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,7 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.interageaula.R;
+import com.example.interageaula.model.Disciplina;
+
+import java.util.List;
+
 public class AdapterDisciplinas extends RecyclerView.Adapter<AdapterDisciplinas.MyViewHolder> {
+
+    private List<Disciplina> listaDisciplina;
+
+    public AdapterDisciplinas(List<Disciplina> lista) {
+        this.listaDisciplina = lista;
+    }
 
     @NonNull
     @Override
@@ -20,12 +31,13 @@ public class AdapterDisciplinas extends RecyclerView.Adapter<AdapterDisciplinas.
 
     @Override
     public void onBindViewHolder(MyViewHolder myViewHolder, int i) {
-        myViewHolder.nomeDisciplina.setText("Teste");
+        Disciplina disciplina = listaDisciplina.get(i);
+        myViewHolder.nomeDisciplina.setText(disciplina.getNome());
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return listaDisciplina.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
