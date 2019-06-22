@@ -8,9 +8,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.interageaula.activities.TelaLogin;
+import com.example.interageaula.bd.BancoDados;
+import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
+import com.example.interageaula.model.Roteiro;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -35,25 +38,25 @@ public class TelaRoteiros extends AppCompatActivity implements View.OnClickListe
         layoutRot1 = (LinearLayout) findViewById(R.id.layoutRoteiro1);
         layoutRot1.setOnClickListener(this);
 
-        BancoDados bd = new BancoDados(getApplicationContext());
-        roteiro = new Roteiro();
-        roteiro.setTituloRoteiro("Substantivo");
-        roteiro.setSubtituloRoteiro("Roteiro 1");
-        roteiro.setDataRoteiro("18/06/2019");
-        bd.inserirRoteiroDisciplina("123", roteiro);
-
-        Intent i = getIntent();
-
-        if(i != null){
-            Bundle disciplinaRecebida = new Bundle();
-            disciplinaRecebida = i.getExtras();
-
-            if(disciplinaRecebida != null){
-                codigoDisciplina = disciplinaRecebida.getString("enviadisciplina","Erro");
-                listarRoteiros(bd,codigoDisciplina);
-
-            }
-        }
+//        BancoDados bd = new BancoDados(getApplicationContext());
+//        roteiro = new Roteiro();
+//        roteiro.setTituloRoteiro("Substantivo");
+//        roteiro.setSubtituloRoteiro("Roteiro 1");
+//        roteiro.setDataRoteiro("18/06/2019");
+//        bd.inserirRoteiroDisciplina("123", roteiro);
+//
+//        Intent i = getIntent();
+//
+//        if(i != null){
+//            Bundle disciplinaRecebida = new Bundle();
+//            disciplinaRecebida = i.getExtras();
+//
+//            if(disciplinaRecebida != null){
+//                codigoDisciplina = disciplinaRecebida.getString("enviadisciplina","Erro");
+//                listarRoteiros(bd,codigoDisciplina);
+//
+//            }
+//        }
     }
 
     @Override
@@ -87,7 +90,7 @@ public class TelaRoteiros extends AppCompatActivity implements View.OnClickListe
     public void deslogarUsuario(){
         try{
             autentificacao.signOut();
-            startActivity(new Intent(getApplicationContext(),TelaLogin.class));
+            startActivity(new Intent(getApplicationContext(), TelaLogin.class));
             finish();
         }catch (Exception e){
             e.printStackTrace();

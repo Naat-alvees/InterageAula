@@ -14,10 +14,15 @@ import android.widget.LinearLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
+import com.example.interageaula.activities.AdicionaDisciplina;
+import com.example.interageaula.activities.TelaLogin;
+import com.example.interageaula.bd.BancoDados;
+import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
+import com.example.interageaula.model.CodigoDisciplina;
+import com.example.interageaula.model.Disciplina;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class TelaDisciplinas extends AppCompatActivity implements View.OnClickListener{
     private FloatingActionButton btnAdicionar;
@@ -80,17 +85,22 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         Log.d("TAG",Integer.toString(v.getId()));
         if(v == btnAdicionar) {
+            Toast.makeText(TelaDisciplinas.this,"Clicou",Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, AdicionaDisciplina.class);
             startActivity(i);
-        }if (v == btnDisciplina){
-            Intent i = new Intent(this,TelaRoteiros.class);
-
-            Bundle enviadisciplina = new Bundle();
-
-            enviadisciplina.putString("enviadisciplina", String.valueOf(btnDisciplina.getId()));
-            i.putExtras(enviadisciplina);
-            startActivity(i);
         }
+//        if (v == btnDisciplina){
+//
+//            Intent i = new Intent(getApplicationContext(),TelaRoteiros.class);
+//            startActivity(i);
+//            Intent i = new Intent(this,TelaRoteiros.class);
+
+//            Bundle enviadisciplina = new Bundle();
+//
+//            enviadisciplina.putString("enviadisciplina", String.valueOf(btnDisciplina.getId()));
+//            i.putExtras(enviadisciplina);
+            //startActivity(i);
+//        }
     }
 
     public void listaDisciplinas(BancoDados bd){
@@ -130,7 +140,7 @@ public class TelaDisciplinas extends AppCompatActivity implements View.OnClickLi
     public void deslogarUsuario(){
         try{
             autentificacao.signOut();
-            startActivity(new Intent(getApplicationContext(),TelaLogin.class));
+            startActivity(new Intent(getApplicationContext(), TelaLogin.class));
             finish();
         }catch (Exception e){
             e.printStackTrace();

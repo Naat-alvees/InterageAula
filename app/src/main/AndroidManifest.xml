@@ -11,13 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TelaConfiguracoes"></activity>
-        <activity android:name=".TelaCadastro" />
-        <activity android:name=".AdicionaDisciplina" />
+        <activity android:name=".activities.RecycleViewRoteiros"></activity>
+        <activity android:name=".activities.RecycleViewDisciplinas" />
+        <activity android:name=".TelaConfiguracoes" />
+        <activity android:name=".activities.TelaCadastro" />
+        <activity android:name=".activities.AdicionaDisciplina" />
         <activity android:name=".TelaConteudos" />
-        <activity android:name=".TelaRoteiros" />
+        <activity android:name=".activities.TelaRoteiros" />
         <activity android:name=".TelaDisciplinas" />
-        <activity android:name=".TelaLogin">
+        <activity android:name=".activities.TelaLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
