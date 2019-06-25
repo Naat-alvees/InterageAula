@@ -7,17 +7,12 @@ public class Disciplina {
     private String nome;
     private String codigo;
 
-    public List<Roteiro> getRoteiros() {
-        return roteiros;
-    }
-
-    public void setRoteiros(List<Roteiro> roteiros) {
-        this.roteiros = roteiros;
-    }
-
-    private List<Roteiro> roteiros = new ArrayList<>();
-
     public Disciplina() {
+    }
+
+    public Disciplina(String nome, String codigo) {
+        this.nome = nome;
+        this.codigo = codigo;
     }
 
     public String getCodigo() {
