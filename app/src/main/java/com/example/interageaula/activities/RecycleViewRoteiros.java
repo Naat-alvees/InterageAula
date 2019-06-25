@@ -1,12 +1,15 @@
 package com.example.interageaula.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,8 +18,14 @@ import android.widget.LinearLayout;
 import com.example.interageaula.R;
 import com.example.interageaula.adapter.AdapterRoteiros;
 import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
+import com.example.interageaula.model.Disciplina;
 import com.example.interageaula.model.Roteiro;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +35,13 @@ public class RecycleViewRoteiros extends AppCompatActivity {
     private FirebaseAuth autentificacao;
 
     private List<Roteiro> listaRoteiros = new ArrayList<>();
+    private List<Disciplina> listaCodigos =  new ArrayList<>();
+    private List<Roteiro> listaRoteirosFirebase = new ArrayList<>();
+    private Roteiro roteiros = new Roteiro();
+    private String codigoDisciplina;
+    private String guardaValor;
+    private SharedPreferences caixa;
+    private DatabaseReference referenciaDisciplinas = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,7 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         setContentView(R.layout.activity_recycle_view_roteiros);
 
         recyclerView = findViewById(R.id.recyclerView2);
+        caixa = getSharedPreferences("chave1",0);
 
         autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -43,6 +60,13 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         //Fim da Configuração toolbar
 
 //        this.criarRoteiros();
+        resgataDadosFirebase();
+        Log.i("FIREBASE", "Lista de codigos: "+Integer.toString(listaCodigos.size()));
+
+        String x = caixa.getString("nomeDisciplina", null);
+        Log.i("FIREBASE", "x "+x);
+        checarCodigo(x);
+
 
         //Configurar adapter
         AdapterRoteiros adapter = new AdapterRoteiros(listaRoteiros);
@@ -82,6 +106,101 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void resgataDadosFirebase(){
+
+        DatabaseReference disciplinas = referenciaDisciplinas.child("disciplinas");
+        DatabaseReference roteiros = referenciaDisciplinas.child("roteiros");
+        disciplinas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //listaCodigos.clear();
+                for (DataSnapshot dados : dataSnapshot.getChildren()){
+                    Log.i("FIREBASE","retorno: "+dados.toString());
+                    Disciplina disciplina = dados.getValue(Disciplina.class);
+                    listaCodigos.add(disciplina);
+
+
+                }
+                for (int i = 0; i < listaCodigos.size(); i++){
+                    Log.i("FIREBASE","Lista de codigos: "+ listaCodigos.get(i).getNome());
+                }
+                //adapter.notifyDataSetChanged();
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        for (int i = 0; i < listaCodigos.size(); i++){
+            Log.i("FIREBASE","Lista de codigos:::::::::::::::::::::::::::::::: "+ listaCodigos.get(i).getNome());
+        }
+
+        roteiros.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //listaRoteirosFirebase.clear();
+                for (DataSnapshot dados: dataSnapshot.getChildren()){
+                    Log.i("FIREBASE","retorno1: "+dados.toString());
+                    Roteiro roteiro = dados.getValue(Roteiro.class);
+                    listaRoteirosFirebase.add(roteiro);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    protected void onStart(){
+        super.onStart();
+        Log.i("FIREBASE", "AQUI");
+
+    }
+
+    protected void onRestart(){
+        super.onRestart();
+        Log.i("FIREBASE", "AQUI 1");
+    }
+
+//    protected void onResume(){
+//        super.onResume();
+//        Log.i("FIREBASE", "AQUI 2");
+////        String x = caixa.getString("codigo", null);
+////        checarCodigo(x);
+//    }
+
+    public void checarCodigo(String nome){
+        //resgataDadosFirebase();
+
+        codigoDisciplina = nome;
+        Log.i("FIREBASE", Integer.toString(listaCodigos.size()));
+        for(int k = 0; k < listaCodigos.size(); k++){
+            guardaValor = listaCodigos.get(k).getNome();
+            Log.i("FIREBASE", "minha lista: "+listaCodigos.get(k).getNome()+" comparando com "+codigoDisciplina);
+            if(guardaValor.compareToIgnoreCase(codigoDisciplina) == 0){
+                roteiros.setTituloRoteiro(listaRoteirosFirebase.get(k).getTituloRoteiro());
+                roteiros.setSubtituloRoteiro(listaRoteirosFirebase.get(k).getSubtituloRoteiro());
+                roteiros.setDataRoteiro(listaRoteirosFirebase.get(k).getDataRoteiro());
+                listaRoteiros.add(roteiros);
+            }
+
+        }
+
+    }
+
+
+    protected void onResume(){
+        super.onResume();
+        Log.i("FIREBASE", "roteiros entrou");
+
     }
 
 //    public void criarRoteiros(){

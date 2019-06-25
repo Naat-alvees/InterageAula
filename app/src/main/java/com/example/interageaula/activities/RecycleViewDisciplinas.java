@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import com.example.interageaula.R;
@@ -49,7 +50,6 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
     private String codigoDisciplina;
 
     private List<Disciplina> listaCodigos =  new ArrayList<>();
-    private String codigo;
     private String guardaValor;
     private SharedPreferences caixa;
 
@@ -133,11 +133,23 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
 
                             @Override
                             public void onItemClick(View view, int position) {
+//                                Intent i = new Intent(RecycleViewDisciplinas.this,RecycleViewRoteiros.class);
+//////                                Bundle enviaDisciplina = new Bundle();
+//////                                enviaDisciplina.putString("nomeDisciplina", codigoDisciplina);
+//////                                i.putExtras(enviaDisciplina);
+//////                                startActivity(i);
+//                                SharedPreferences.Editor editor = caixa.edit();
+//                                editor.putString("codigo",codigo);
+//                                editor.commit();
                                 Intent i = new Intent(RecycleViewDisciplinas.this,RecycleViewRoteiros.class);
-                                Bundle enviaDisciplina = new Bundle();
-                                enviaDisciplina.putString("nomeDisciplina", codigoDisciplina);
-                                i.putExtras(enviaDisciplina);
+                                Disciplina disciplinaSelecionada = listarDisciplinas.get(position);
+                                SharedPreferences.Editor editor = caixa.edit();
+                                editor.putString("nomeDisciplina",disciplinaSelecionada.getNome());
+                                editor.commit();
+
                                 startActivity(i);
+                                //Toast.makeText(getApplicationContext(),"Botao pressionado"+disciplinaSelecionada.getNome(), Toast.LENGTH_SHORT).show();
+
                             }
 
                             @Override
@@ -210,15 +222,8 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
                     //Log.i("VALOR","retorno: "+dados.toString());
                     Disciplina disciplina = dados.getValue(Disciplina.class);
-//                    for (int i =0; i < disciplina.getRoteiros().size(); i++){
-//                        Log.i("FIREBASE","dados: "+disciplina.getRoteiros().get(i).getTituloRoteiro());
-//                    }
-                    //Log.i("FIREBASE","dados: "+disciplina.getRoteiros());
                     listaCodigos.add(disciplina);
                 }
-
-
-
                 //adapter.notifyDataSetChanged();
 
             }
@@ -261,9 +266,7 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
     protected void onResume(){
         super.onResume();
         Log.i("FIREBASE", "AQUI 2");
-
         String x = caixa.getString("codigo", null);
-
         checarCodigo(x);
     }
 
