@@ -2,6 +2,7 @@ package com.example.interageaula.activities;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -30,39 +31,21 @@ public class AdicionaDisciplina extends AppCompatActivity implements View.OnClic
     private Button btnAdiciona;
     private EditText codigoDisciplina;
 
-    private List<Disciplina> listaCodigos =  new ArrayList<>();;
+
 
     //dados no firebase
     private DatabaseReference referenciaDisciplinas = FirebaseDatabase.getInstance().getReference();
     private String codigo;
-    private String guardaValor;
+    private SharedPreferences caixa;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adiciona_disciplina);
-        DatabaseReference disciplinas = referenciaDisciplinas.child("disciplinas");
 
-        disciplinas.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listaCodigos.clear();
-                for (DataSnapshot dados : dataSnapshot.getChildren()){
-                    //Log.i("VALOR","retorno: "+dados.toString());
-                    Disciplina disciplina = dados.getValue(Disciplina.class);
-                    //Log.i("FIREBASE","dados: "+disciplina.getCodigo());
-                    listaCodigos.add(disciplina);
-                }
+        caixa = getSharedPreferences("chave1",0);
 
-                //adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
 
         btnAdiciona = (Button) findViewById(R.id.button);
@@ -77,19 +60,16 @@ public class AdicionaDisciplina extends AppCompatActivity implements View.OnClic
         if(v == btnAdiciona){
             codigo = codigoDisciplina.getText().toString();
 
-            for(int k = 0; k < listaCodigos.size(); k++){
-                guardaValor = listaCodigos.get(k).getCodigo();
+            //Intent i = new Intent(this, RecycleViewDisciplinas.class);
+//            Bundle enviaCodigo = new Bundle();
+//            enviaCodigo.putString("CodigoDaDisciplina",codigo);
+//            i.putExtras(enviaCodigo);
+            //startActivity(i);
+            SharedPreferences.Editor editor = caixa.edit();
+            editor.putString("codigo",codigo);
+            editor.commit();
 
-                if(guardaValor.equals(codigo)){
-                    Intent i = new Intent(this, RecycleViewDisciplinas.class);
-                    Bundle enviaCodigo = new Bundle();
-                    enviaCodigo.putString("CodigoDaDisciplina",listaCodigos.get(k).getNome());
-                    i.putExtras(enviaCodigo);
-                    startActivity(i);
-                    this.finish();
-                }
-
-            }
+            this.finish();
 
         }
     }

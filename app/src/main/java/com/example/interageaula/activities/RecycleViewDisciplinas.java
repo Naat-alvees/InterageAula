@@ -1,6 +1,7 @@
 package com.example.interageaula.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,10 +23,12 @@ import com.example.interageaula.adapter.AdapterDisciplinas;
 import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
 import com.example.interageaula.eventos.RecyclerItemClickListener;
 import com.example.interageaula.model.Disciplina;
-import com.example.interageaula.model.Roteiro;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +48,18 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
     private Disciplina disciplina = new Disciplina();
     private String codigoDisciplina;
 
+    private List<Disciplina> listaCodigos =  new ArrayList<>();
+    private String codigo;
+    private String guardaValor;
+    private SharedPreferences caixa;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view_disciplinas);
 
         recyclerView = findViewById(R.id.recyclerView);
-
+        caixa = getSharedPreferences("chave1",0);
 
         autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
@@ -100,23 +109,13 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
         //fim do adicionar dados no firebase
 
 
-        Intent i = getIntent();
 
-        if(i != null){
-            Bundle codigoRecebido = new Bundle();
-            codigoRecebido = i.getExtras();
+        resgataDadosFirebase();
 
-            if(codigoRecebido != null){
-
-                codigoDisciplina = codigoRecebido.getString("CodigoDaDisciplina","Erro");
-
-                disciplina.setNome(codigoDisciplina);
-                listarDisciplinas.add(disciplina);
-            }
-        }
 
         //Configurar adapter
         adapter = new AdapterDisciplinas(listarDisciplinas);
+        Log.i("FIREBASE","Nos: "+Integer.toString(listarDisciplinas.size()));
 
         //Configurar Recyclerview
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -198,6 +197,74 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
             Intent i = new Intent(this, AdicionaDisciplina.class);
             startActivity(i);
         }
+    }
+
+    public void resgataDadosFirebase(){
+
+        DatabaseReference disciplinas = referenciaDisciplinas.child("disciplinas");
+
+        disciplinas.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listaCodigos.clear();
+                for (DataSnapshot dados : dataSnapshot.getChildren()){
+                    //Log.i("VALOR","retorno: "+dados.toString());
+                    Disciplina disciplina = dados.getValue(Disciplina.class);
+//                    for (int i =0; i < disciplina.getRoteiros().size(); i++){
+//                        Log.i("FIREBASE","dados: "+disciplina.getRoteiros().get(i).getTituloRoteiro());
+//                    }
+                    //Log.i("FIREBASE","dados: "+disciplina.getRoteiros());
+                    listaCodigos.add(disciplina);
+                }
+
+
+
+                //adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void checarCodigo(String codigo){
+
+
+        codigoDisciplina = codigo;
+
+        for(int k = 0; k < listaCodigos.size(); k++){
+            guardaValor = listaCodigos.get(k).getCodigo();
+
+            if(guardaValor.equals(codigo)){
+                disciplina.setNome(listaCodigos.get(k).getNome());
+                listarDisciplinas.add(disciplina);
+            }
+
+        }
+
+    }
+
+    protected void onStart(){
+        super.onStart();
+        Log.i("FIREBASE", "AQUI");
+    }
+
+    protected void onRestart(){
+        super.onRestart();
+        Log.i("FIREBASE", "AQUI 1");
+    }
+
+    protected void onResume(){
+        super.onResume();
+        Log.i("FIREBASE", "AQUI 2");
+
+        String x = caixa.getString("codigo", null);
+
+        checarCodigo(x);
     }
 
 }

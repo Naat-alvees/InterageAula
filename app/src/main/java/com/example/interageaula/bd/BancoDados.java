@@ -27,8 +27,6 @@ public class BancoDados extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists tabelaDisciplinaAluno (codigo text not null primary key, nome text not null);");
-        db.execSQL("create table if not exists tabelaDisciplinaCodigo (codigo text not null primary key, nome text not null);");
-        db.execSQL("create table if not exists tabelaRoteiro (tituloRoteiro text not null primary key, subtituloRoteiro text not null, dataRoteiro text not null, codigo text not null);");
     }
 
     @Override
@@ -71,84 +69,5 @@ public class BancoDados extends SQLiteOpenHelper {
         db.delete("tabelaDisciplinaAluno", "codigo=" + disciplina.getCodigo(), null);
     }
 
-    public void inserirDisciplina(CodigoDisciplina disciplina) {
-        //Log.d("BANCO","Metodo inserir invocado");
-        ContentValues valores = new ContentValues();
-        valores.put("nome", disciplina.getNome());
-        valores.put("codigo", disciplina.getCodigo());
-        db.insert("tabelaDisciplinaCodigo", "", valores);
-        Log.d("TAG",disciplina.getNome());
-        Log.d("TAG",disciplina.getCodigo());
-        db.insert("tabelaDisciplinaCodigo","",valores);
-        //Log.d("BANCO","Inserido com sucesso");
-    }
-
-
-    public String[] buscarDisciplina(String codigo){
-        String mensagem[] = new String[2];
-
-        String query =  "SELECT * FROM tabelaDisciplinaCodigo WHERE codigo='"+codigo+"'";
-
-        Cursor c = db.rawQuery(query, null);
-
-        if (c.getCount() != 0){
-            c.moveToFirst();
-            mensagem[0] = "1";
-            mensagem[1] = c.getString(c.getColumnIndex("nome"));
-        }else {
-            mensagem[0] = "-1";
-        }
-        return mensagem;
-    }
-
-    public void inserirRoteiroDisciplina(String codigo, Roteiro roteiro) {
-
-        ContentValues valores = new ContentValues();
-
-        valores.put("tituloRoteiro", roteiro.getTituloRoteiro());
-        valores.put("subtituloRoteiro", roteiro.getSubtituloRoteiro());
-        valores.put("dataRoteiro", roteiro.getDataRoteiro());
-        valores.put("codigo", codigo);
-        db.insert("tabelaRoteiro", "", valores);
-    }
-
-    public ArrayList<Roteiro> buscarRoteiroDisciplinas(String codigo) {
-        ArrayList<Roteiro> lista = new ArrayList<>();
-        String query = "SELECT * FROM tabelaRoteiro WHERE codigo='" + codigo + "'";
-        Cursor c = db.rawQuery(query, null);
-
-
-        if (c.getCount() > 0) {
-            c.moveToFirst();
-            do {
-                Roteiro rot = new Roteiro();
-                rot.setTituloRoteiro(c.getString(c.getColumnIndex("tituloRoteiro")));
-                rot.setSubtituloRoteiro(c.getString(c.getColumnIndex("subtituloRoteiro")));
-                rot.setDataRoteiro(c.getString(c.getColumnIndex("dataRoteiro")));
-                lista.add(rot);
-            } while (c.moveToNext());
-        }
-        return lista;
-    }
-
-//    public String[] buscarRoteiro(String codigo) {
-//        String[] arrayRoteiro = new String[4];
-//        String query = "SELECT * FROM tabelaRoteiro WHERE codigo='" + codigo + "'";
-//
-//        Cursor c = db.rawQuery(query, null);
-//
-//        if (c.getCount() != 0) {
-//            c.moveToFirst();
-//            arrayRoteiro[0] = "1";
-//            arrayRoteiro[1] = c.getString(c.getColumnIndex("tituloRoteiro"));
-//            arrayRoteiro[2] = c.getString(c.getColumnIndex("subtituloRoteiro"));
-//            arrayRoteiro[3] = c.getString(c.getColumnIndex("dataRoteiro"));
-//
-//        } else {
-//            arrayRoteiro[0] = "-1";
-//        }
-//
-//        return arrayRoteiro;
-//    }
 
 }
