@@ -5,11 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.example.interageaula.model.CodigoDisciplina;
 import com.example.interageaula.model.Disciplina;
-import com.example.interageaula.model.Roteiro;
 
 import java.util.ArrayList;
 
@@ -26,7 +23,7 @@ public class BancoDados extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table if not exists tabelaDisciplinaAluno (codigo text not null primary key, nome text not null);");
+        db.execSQL("create table if not exists tabelaDisciplinaAluno (codigo text not null primary key, nome text not null );");
     }
 
     @Override
@@ -41,12 +38,10 @@ public class BancoDados extends SQLiteOpenHelper {
     }
 
     public void inserirDisciplinaAluno(Disciplina disciplina) {
-        Log.d("TAG", "Metodo inserir invocado");
         ContentValues valores = new ContentValues();
         valores.put("nome", disciplina.getNome());
         valores.put("codigo", disciplina.getCodigo());
         db.insert("tabelaDisciplinaAluno", "", valores);
-        //Log.d("BANCO","Inserido com sucesso");
     }
 
     public ArrayList<Disciplina> buscarDisciplinasAluno() {

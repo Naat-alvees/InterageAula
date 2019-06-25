@@ -60,12 +60,9 @@ public class AdicionaDisciplina extends AppCompatActivity implements View.OnClic
         if(v == btnAdiciona){
             codigo = codigoDisciplina.getText().toString();
 
-            //Intent i = new Intent(this, RecycleViewDisciplinas.class);
-//            Bundle enviaCodigo = new Bundle();
-//            enviaCodigo.putString("CodigoDaDisciplina",codigo);
-//            i.putExtras(enviaCodigo);
-            //startActivity(i);
+
             SharedPreferences.Editor editor = caixa.edit();
+            editor.putBoolean("codigoVerifica",false);
             editor.putString("codigo",codigo);
             editor.commit();
 

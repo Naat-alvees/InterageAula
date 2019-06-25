@@ -16,10 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 
 import com.example.interageaula.R;
 import com.example.interageaula.adapter.AdapterDisciplinas;
+import com.example.interageaula.bd.BancoDados;
 import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
 import com.example.interageaula.eventos.RecyclerItemClickListener;
 import com.example.interageaula.model.Disciplina;
@@ -38,16 +40,14 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
     private RecyclerView recyclerView;
     private FloatingActionButton btnAdicionar;
     private FirebaseAuth autentificacao;
-
-    private List<Disciplina> listarDisciplinas =  new ArrayList<>();
-
-
+    private BancoDados bd;
     private AdapterDisciplinas adapter;
+    private ArrayList<Disciplina> listaDisciplinas = new ArrayList<>();
     //dados no firebase
     private DatabaseReference referenciaDisciplinas = FirebaseDatabase.getInstance().getReference();
     private Disciplina disciplina = new Disciplina();
     private String codigoDisciplina;
-
+    Boolean chamouAdicionaDisciplina = false;
     private List<Disciplina> listaCodigos =  new ArrayList<>();
     private String codigo;
     private String guardaValor;
@@ -58,10 +58,15 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view_disciplinas);
 
+        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+
+
+
         recyclerView = findViewById(R.id.recyclerView);
         caixa = getSharedPreferences("chave1",0);
+        bd = new BancoDados(getApplicationContext());
 
-        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        //bd.deleta();
 
         //Configuração toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -69,53 +74,21 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
         setSupportActionBar(toolbar);
         //Fim da Configuração toolbar
 
-        //Adicionando dados no firebase
-//        DatabaseReference roteiros = referenciaDisciplinas.child("roteiros");
-//        Roteiro roteiro = new Roteiro();
-//        List<Roteiro> listaDeRoteiros = new ArrayList<>();
-//        roteiro.setTituloRoteiro("Gramática");
-//        roteiro.setSubtituloRoteiro("Roteiro 1");
-//        roteiro.setDataRoteiro("22/06/2019");
-//        listaDeRoteiros.add(roteiro);
-//        roteiros.push().setValue(roteiro);
-//
-//        Roteiro roteiro1 = new Roteiro();
-//        List<Roteiro> listaDeRoteiros1 = new ArrayList<>();
-//        roteiro1.setTituloRoteiro("Numeros Complexos");
-//        roteiro1.setSubtituloRoteiro("Roteiro 2");
-//        roteiro1.setDataRoteiro("23/06/2019");
-//        listaDeRoteiros1.add(roteiro);
-//        roteiros.push().setValue(roteiro1);
-//
-//
-//        DatabaseReference disciplinas = referenciaDisciplinas.child("disciplinas");
-//
-//        Disciplina disciplina = new Disciplina();
-//        disciplina.setNome("Portugues");
-//        disciplina.setCodigo("123");
-//        disciplina.setRoteiros(listaDeRoteiros);
-//        this.listarDisciplinas.add(disciplina);
-//
-//        disciplinas.push().setValue(disciplina);
-//
-//        Disciplina disciplina1 = new Disciplina();
-//        disciplina1.setNome("Matematica");
-//        disciplina1.setCodigo("321");
-//        disciplina1.setRoteiros(listaDeRoteiros1);
-//        this.listarDisciplinas.add(disciplina1);
-//
-//        disciplinas.push().setValue(disciplina1);
-        //metodo push() gera identificadores unicos no firebase
-        //fim do adicionar dados no firebase
-
-
-
         resgataDadosFirebase();
 
+        listaDisciplinas = bd.buscarDisciplinasAluno();
 
+        this.listarDisciplinas();
+
+        btnAdicionar = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
+        btnAdicionar.setOnClickListener(this);
+
+    }
+
+
+    public void listarDisciplinas(){
         //Configurar adapter
-        adapter = new AdapterDisciplinas(listarDisciplinas);
-        Log.i("FIREBASE","Nos: "+Integer.toString(listarDisciplinas.size()));
+        adapter = new AdapterDisciplinas(listaDisciplinas);
 
         //Configurar Recyclerview
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
@@ -141,26 +114,14 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
                             }
 
                             @Override
-                            public void onLongItemClick(View view, int position) {
-
-                            }
+                            public void onLongItemClick(View view, int position) {}
 
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                            }
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {}
                         }
                 )
         );
-
-        btnAdicionar = (FloatingActionButton) findViewById(R.id.floatingActionButton2);
-        btnAdicionar.setOnClickListener(this);
-
-
     }
-
-
 
     public boolean onCreateOptionsMenu(Menu menu){
 
@@ -200,7 +161,6 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
     }
 
     public void resgataDadosFirebase(){
-
         DatabaseReference disciplinas = referenciaDisciplinas.child("disciplinas");
 
         disciplinas.addValueEventListener(new ValueEventListener() {
@@ -208,19 +168,9 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listaCodigos.clear();
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
-                    //Log.i("VALOR","retorno: "+dados.toString());
                     Disciplina disciplina = dados.getValue(Disciplina.class);
-//                    for (int i =0; i < disciplina.getRoteiros().size(); i++){
-//                        Log.i("FIREBASE","dados: "+disciplina.getRoteiros().get(i).getTituloRoteiro());
-//                    }
-                    //Log.i("FIREBASE","dados: "+disciplina.getRoteiros());
                     listaCodigos.add(disciplina);
                 }
-
-
-
-                //adapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -231,40 +181,42 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
 
     }
 
-    public void checarCodigo(String codigo){
-
-
+    public int checarCodigo(String codigo){
         codigoDisciplina = codigo;
-
         for(int k = 0; k < listaCodigos.size(); k++){
             guardaValor = listaCodigos.get(k).getCodigo();
-
             if(guardaValor.equals(codigo)){
-                disciplina.setNome(listaCodigos.get(k).getNome());
-                listarDisciplinas.add(disciplina);
+                Disciplina novaDisciplina = new Disciplina(listaCodigos.get(k).getNome(),guardaValor);
+                Log.d("TESTE","Nome: "+novaDisciplina.getNome()+" Código: "+novaDisciplina.getCodigo());
+                bd.inserirDisciplinaAluno(novaDisciplina);
+                return 1;
             }
-
         }
-
+        return -1;
     }
 
-    protected void onStart(){
-        super.onStart();
-        Log.i("FIREBASE", "AQUI");
-    }
-
-    protected void onRestart(){
-        super.onRestart();
-        Log.i("FIREBASE", "AQUI 1");
-    }
 
     protected void onResume(){
         super.onResume();
-        Log.i("FIREBASE", "AQUI 2");
 
-        String x = caixa.getString("codigo", null);
+        chamouAdicionaDisciplina = caixa.getBoolean("codigoVerifica",false);
 
-        checarCodigo(x);
+        Log.d("TESTE",Boolean.toString(chamouAdicionaDisciplina));
+
+        if(!chamouAdicionaDisciplina){
+            SharedPreferences.Editor editor = caixa.edit();
+            editor.putBoolean("codigoVerifica",true);
+
+
+            String x = caixa.getString("codigo", null);
+
+            if(checarCodigo(x) == -1 ){
+                Toast.makeText(RecycleViewDisciplinas.this,"Código incorreto!",Toast.LENGTH_SHORT).show();
+            }
+
+            listaDisciplinas = bd.buscarDisciplinasAluno();
+            listarDisciplinas();
+        }
     }
 
 }
