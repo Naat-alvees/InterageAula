@@ -42,6 +42,7 @@ public class RecycleViewRoteiros extends AppCompatActivity {
     private String guardaValor;
     private SharedPreferences caixa;
     private DatabaseReference referenciaDisciplinas = FirebaseDatabase.getInstance().getReference();
+    private String bundleRecebido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,23 +61,17 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         //Fim da Configuração toolbar
 
 //        this.criarRoteiros();
+        bundleRecebido = caixa.getString("nomeDisciplina", null);
+
+        ///estamos aqui
         resgataDadosFirebase();
-        Log.i("FIREBASE", "Lista de codigos: "+Integer.toString(listaCodigos.size()));
+        //Log.i("FIREBASE", "Lista de codigos: "+Integer.toString(listaCodigos.size()));
 
-        String x = caixa.getString("nomeDisciplina", null);
-        Log.i("FIREBASE", "x "+x);
-        checarCodigo(x);
+      //  Log.i("FIREBASE", "x "+x);
+        //checarCodigo(x);
 
 
-        //Configurar adapter
-        AdapterRoteiros adapter = new AdapterRoteiros(listaRoteiros);
 
-        //Configurar Recyclerview
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
-        recyclerView.setAdapter(adapter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -117,28 +112,33 @@ public class RecycleViewRoteiros extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //listaCodigos.clear();
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
-                    Log.i("FIREBASE","retorno: "+dados.toString());
+                    Log.i("FIREBASE","Retorno resgatado no escutador: "+dados.toString());
                     Disciplina disciplina = dados.getValue(Disciplina.class);
                     listaCodigos.add(disciplina);
 
 
                 }
                 for (int i = 0; i < listaCodigos.size(); i++){
-                    Log.i("FIREBASE","Lista de codigos: "+ listaCodigos.get(i).getNome());
+                    Log.i("FIREBASE","For varreando a lista: "+ listaCodigos.get(i).getNome());
+
                 }
                 //adapter.notifyDataSetChanged();
+                Log.i("FIREBASE","Tamanho da lista ainda dentro do escutador:::::::::::::::::::::::::::::::: "+ listaCodigos.size());
+                checarCodigo(bundleRecebido);
 
             }
 
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.i("FIREBASE","ERRO!!!!!!!!!!!!!");
 
             }
         });
-        for (int i = 0; i < listaCodigos.size(); i++){
-            Log.i("FIREBASE","Lista de codigos:::::::::::::::::::::::::::::::: "+ listaCodigos.get(i).getNome());
-        }
+        Log.i("FIREBASE"," Fora do escutador$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+
+            Log.i("FIREBASE","Tamanho fora do escutador:::::::::::::::::::::::::::::::: "+ listaCodigos.size());
 
         roteiros.addValueEventListener(new ValueEventListener() {
             @Override
@@ -181,19 +181,37 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         //resgataDadosFirebase();
 
         codigoDisciplina = nome;
-        Log.i("FIREBASE", Integer.toString(listaCodigos.size()));
+        Log.i("FIREBASE", "!!!!!!! Estamos dentro do checar codigo"+Integer.toString(listaCodigos.size()));
         for(int k = 0; k < listaCodigos.size(); k++){
             guardaValor = listaCodigos.get(k).getNome();
             Log.i("FIREBASE", "minha lista: "+listaCodigos.get(k).getNome()+" comparando com "+codigoDisciplina);
             if(guardaValor.compareToIgnoreCase(codigoDisciplina) == 0){
-                roteiros.setTituloRoteiro(listaRoteirosFirebase.get(k).getTituloRoteiro());
-                roteiros.setSubtituloRoteiro(listaRoteirosFirebase.get(k).getSubtituloRoteiro());
-                roteiros.setDataRoteiro(listaRoteirosFirebase.get(k).getDataRoteiro());
-                listaRoteiros.add(roteiros);
+                Log.i("FIREBASE", "dentro do if");
+                for (int i = 0; i < listaCodigos.get(k).getRoteiros().size(); i++){
+
+                    roteiros.setTituloRoteiro(listaCodigos.get(k).getRoteiros().get(i).getTituloRoteiro());
+                    roteiros.setSubtituloRoteiro(listaCodigos.get(k).getRoteiros().get(i).getSubtituloRoteiro());
+                    roteiros.setDataRoteiro(listaCodigos.get(k).getRoteiros().get(i).getDataRoteiro());
+                    listaRoteiros.add(roteiros);
+                }
+
             }
 
         }
 
+        montaTelaRoteiro();
+
+    }
+    public void montaTelaRoteiro(){
+        //Configurar adapter
+        AdapterRoteiros adapter = new AdapterRoteiros(listaRoteiros);
+
+        //Configurar Recyclerview
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+        recyclerView.setAdapter(adapter);
     }
 
 

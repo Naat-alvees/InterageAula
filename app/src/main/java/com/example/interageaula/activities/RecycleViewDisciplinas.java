@@ -114,7 +114,7 @@ public class RecycleViewDisciplinas extends AppCompatActivity implements View.On
 //                                editor.putString("codigo",codigo);
 //                                editor.commit();
                                 Intent i = new Intent(RecycleViewDisciplinas.this,RecycleViewRoteiros.class);
-                                Disciplina disciplinaSelecionada = listarDisciplinas.get(position);
+                                Disciplina disciplinaSelecionada = listaDisciplinas.get(position);
                                 SharedPreferences.Editor editor = caixa.edit();
                                 editor.putString("nomeDisciplina",disciplinaSelecionada.getNome());
                                 editor.commit();
