@@ -138,24 +138,8 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         Log.i("FIREBASE"," Fora do escutador$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
 
-            Log.i("FIREBASE","Tamanho fora do escutador:::::::::::::::::::::::::::::::: "+ listaCodigos.size());
+        Log.i("FIREBASE","Tamanho fora do escutador:::::::::::::::::::::::::::::::: "+ listaCodigos.size());
 
-        roteiros.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //listaRoteirosFirebase.clear();
-                for (DataSnapshot dados: dataSnapshot.getChildren()){
-                    Log.i("FIREBASE","retorno1: "+dados.toString());
-                    Roteiro roteiro = dados.getValue(Roteiro.class);
-                    listaRoteirosFirebase.add(roteiro);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
     }
 
