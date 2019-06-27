@@ -73,18 +73,18 @@ public class TelaLogin extends Activity implements View.OnClickListener {
         }
     }
 
-    public void validarLogin(Usuario usuario){
+    public void validarLogin(Usuario usuario) {
         progressBar.setVisibility(View.VISIBLE);
         autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        autentificacao.signInWithEmailAndPassword(usuario.getEmail(),usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        autentificacao.signInWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
+                if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    startActivity(new Intent(getApplicationContext(),RecycleViewDisciplinas.class));
+                    startActivity(new Intent(getApplicationContext(), RecycleViewDisciplinas.class));
                     finish();
-                }else {
-                    Toast.makeText(TelaLogin.this,"Usuário ou senha incorreto!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(TelaLogin.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
