@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.interageaula.R;
 import com.example.interageaula.model.Usuario;
 import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
@@ -19,12 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class TelaLogin extends Activity implements View.OnClickListener {
+public class ViewLogin extends Activity implements View.OnClickListener {
     private EditText campoEmail, campoSenha;
     private Button btnEntrar;
     private TextView txtCadastrese;
     private ProgressBar progressBar;
-
     private Usuario usuario;
     private FirebaseAuth autentificacao;
     @Override
@@ -32,7 +30,6 @@ public class TelaLogin extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_login);
         verificarUsuarioLogado();
-        //autentificacao.signOut();
         inicializaComponentes();
         txtCadastrese.setOnClickListener(this);
 
@@ -55,10 +52,10 @@ public class TelaLogin extends Activity implements View.OnClickListener {
                         validarLogin(usuario);
 
                     }else {
-                        Toast.makeText(TelaLogin.this,"Preencha a senha!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewLogin.this,"Preencha a senha!",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(TelaLogin.this,"Preencha o e-mail!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewLogin.this,"Preencha o e-mail!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -68,7 +65,7 @@ public class TelaLogin extends Activity implements View.OnClickListener {
         autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
 
         if (autentificacao.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), RecycleViewDisciplinas.class));
+            startActivity(new Intent(getApplicationContext(), ViewDisciplinas.class));
             finish();
         }
     }
@@ -81,10 +78,10 @@ public class TelaLogin extends Activity implements View.OnClickListener {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    startActivity(new Intent(getApplicationContext(), RecycleViewDisciplinas.class));
+                    startActivity(new Intent(getApplicationContext(), ViewDisciplinas.class));
                     finish();
                 } else {
-                    Toast.makeText(TelaLogin.this, "Erro ao fazer login", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewLogin.this, "Usuário ou senha incorreto", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
@@ -97,7 +94,6 @@ public class TelaLogin extends Activity implements View.OnClickListener {
         btnEntrar = findViewById(R.id.buttonEntrar);
         txtCadastrese = findViewById(R.id.textCadastrese);
         progressBar = findViewById(R.id.progressLogin);
-
         campoEmail.requestFocus();
 
     }
@@ -105,7 +101,7 @@ public class TelaLogin extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == txtCadastrese){
-            Intent i = new Intent(this, TelaCadastro.class);
+            Intent i = new Intent(this, ViewCadastro.class);
             startActivity(i);
         }
     }

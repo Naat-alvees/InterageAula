@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.example.interageaula.R;
 import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
 import com.example.interageaula.model.Usuario;
@@ -21,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
-public class TelaCadastro extends Activity{
+public class ViewCadastro extends Activity{
     private EditText campoNome, campoEmail, campoSenha;
     private Button btnCadastrar;
     private ProgressBar progressBar;
@@ -60,13 +59,13 @@ public class TelaCadastro extends Activity{
                             usuario.setSenha(textoSenha);
                             cadastrarUsuario(usuario);
                         }else {
-                            Toast.makeText(TelaCadastro.this,"Preencha a Senha!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ViewCadastro.this,"Preencha a Senha!",Toast.LENGTH_SHORT).show();
                         }
                     }else {
-                        Toast.makeText(TelaCadastro.this,"Preencha o Email!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ViewCadastro.this,"Preencha o Email!",Toast.LENGTH_SHORT).show();
                     }
                 }else {
-                    Toast.makeText(TelaCadastro.this,"Preencha o nome!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewCadastro.this,"Preencha o nome!",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -83,8 +82,8 @@ public class TelaCadastro extends Activity{
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(TelaCadastro.this,"Cadastro efetuado com sucesso",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), TelaLogin.class));
+                    Toast.makeText(ViewCadastro.this,"Cadastro efetuado com sucesso",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), ViewLogin.class));
                     finish();
                 }else {
                     progressBar.setVisibility(View.GONE);
@@ -95,7 +94,7 @@ public class TelaCadastro extends Activity{
                     }catch (FirebaseAuthWeakPasswordException e){
                         erroExcecao = "Digite uma senha mais forte!";
                     }catch (FirebaseAuthInvalidCredentialsException e){
-                        erroExcecao = "Por facvor, digite um e-mail válido";
+                        erroExcecao = "Por favor, digite um e-mail válido";
                     }catch (FirebaseAuthUserCollisionException e){
                         erroExcecao = "Esta conta já foi cadastrada";
                     }catch (Exception e){
@@ -103,7 +102,7 @@ public class TelaCadastro extends Activity{
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(TelaCadastro.this, "Erro: " + erroExcecao, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ViewCadastro.this, "Erro: " + erroExcecao, Toast.LENGTH_SHORT).show();
                 }
             }
         });

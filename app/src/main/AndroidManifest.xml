@@ -11,12 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.RecycleViewRoteiros"></activity>
-        <activity android:name=".activities.RecycleViewDisciplinas" />
-        <activity android:name=".activities.TelaCadastro" />
-        <activity android:name=".activities.AdicionaDisciplina" />
+        <activity android:name=".activities.ViewRoteiros"></activity>
+        <activity android:name=".activities.ViewDisciplinas" />
+        <activity android:name=".activities.ViewCadastro" />
+        <activity android:name=".activities.ViewAdicionaDisciplina" />
         <activity android:name=".activities.TelaRoteiros" />
-        <activity android:name=".activities.TelaLogin">
+        <activity android:name=".activities.ViewLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

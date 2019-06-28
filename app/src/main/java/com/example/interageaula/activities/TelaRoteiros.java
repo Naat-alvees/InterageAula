@@ -12,7 +12,7 @@
 //
 //import com.example.interageaula.R;
 //import com.example.interageaula.TelaConteudos;
-//import com.example.interageaula.activities.TelaLogin;
+//import com.example.interageaula.activities.ViewLogin;
 //import com.example.interageaula.bd.BancoDados;
 //import com.example.interageaula.configuracoesFirebase.ConfiguracaoFirebase;
 //import com.example.interageaula.model.Roteiro;
@@ -92,7 +92,7 @@
 //    public void deslogarUsuario(){
 //        try{
 //            autentificacao.signOut();
-//            startActivity(new Intent(getApplicationContext(), TelaLogin.class));
+//            startActivity(new Intent(getApplicationContext(), ViewLogin.class));
 //            finish();
 //        }catch (Exception e){
 //            e.printStackTrace();

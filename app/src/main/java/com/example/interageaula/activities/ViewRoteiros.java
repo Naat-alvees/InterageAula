@@ -2,7 +2,6 @@ package com.example.interageaula.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -30,10 +29,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecycleViewRoteiros extends AppCompatActivity {
+public class ViewRoteiros extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FirebaseAuth autentificacao;
-
+    Disciplina disciplinaRecebida;
     private List<Roteiro> listaRoteiros = new ArrayList<>();
     private List<Disciplina> listaCodigos =  new ArrayList<>();
     private List<Roteiro> listaRoteirosFirebase = new ArrayList<>();
@@ -49,19 +48,23 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycle_view_roteiros);
 
-        recyclerView = findViewById(R.id.recyclerView2);
-        caixa = getSharedPreferences("chave1",0);
+        Intent recebe = getIntent();
+        if(recebe != null){
+            Bundle bundleRecebido;
+            bundleRecebido = recebe.getExtras();
+            if(bundleRecebido != null){
+                String nomeDisciplina = bundleRecebido. getString("nomeDisciplina", null);
+                String codDisciplina = bundleRecebido. getString("codigoDisciplina", null);
+                disciplinaRecebida = new Disciplina(nomeDisciplina, codDisciplina);
+            }
+        }
 
-        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        Log.d("TEST",disciplinaRecebida.getNome());
+        Log.d("TEST",disciplinaRecebida.getCodigo());
 
-        //Configuração toolbar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("InterageAula");
-        setSupportActionBar(toolbar);
-        //Fim da Configuração toolbar
 
 //        this.criarRoteiros();
-        bundleRecebido = caixa.getString("nomeDisciplina", null);
+        //bundleRecebido = caixa.getString("nomeDisciplina", null);
 
         ///estamos aqui
         resgataDadosFirebase();
@@ -96,7 +99,7 @@ public class RecycleViewRoteiros extends AppCompatActivity {
     public void deslogarUsuario(){
         try{
             autentificacao.signOut();
-            startActivity(new Intent(getApplicationContext(), TelaLogin.class));
+            startActivity(new Intent(getApplicationContext(), ViewLogin.class));
             finish();
         }catch (Exception e){
             e.printStackTrace();
@@ -104,7 +107,6 @@ public class RecycleViewRoteiros extends AppCompatActivity {
     }
 
     public void resgataDadosFirebase(){
-
         DatabaseReference disciplinas = referenciaDisciplinas.child("disciplinas");
         DatabaseReference roteiros = referenciaDisciplinas.child("roteiros");
         disciplinas.addValueEventListener(new ValueEventListener() {
@@ -116,8 +118,8 @@ public class RecycleViewRoteiros extends AppCompatActivity {
                     Disciplina disciplina = dados.getValue(Disciplina.class);
                     listaCodigos.add(disciplina);
 
-
                 }
+
                 for (int i = 0; i < listaCodigos.size(); i++){
                     Log.i("FIREBASE","For varreando a lista: "+ listaCodigos.get(i).getNome());
 
@@ -196,6 +198,14 @@ public class RecycleViewRoteiros extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         recyclerView.setAdapter(adapter);
+    }
+
+    public void inicializaComponentes(){
+        recyclerView = findViewById(R.id.recyclerView2);
+        autentificacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Roteiros");
+        setSupportActionBar(toolbar);
     }
 
 
