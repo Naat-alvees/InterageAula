@@ -1,8 +1,10 @@
 package com.example.interageaula.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -65,7 +67,16 @@ public class ViewAdicionaDisciplina extends AppCompatActivity implements View.On
                 startActivity(i);
                 this.finish();
             } else{
-                Toast.makeText(ViewAdicionaDisciplina.this,"Código incorreto!",Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Erro");
+                builder.setMessage("Código Inexistente");
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                });
+
+                AlertDialog alerta = builder.create();
+                alerta.show();
             }
         }
     }
