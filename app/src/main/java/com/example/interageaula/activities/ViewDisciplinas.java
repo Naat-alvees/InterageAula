@@ -121,6 +121,10 @@ public class ViewDisciplinas extends AppCompatActivity implements View.OnClickLi
                 deslogarUsuario();
                 break;
             case R.id.MenuConfiguracao:
+                Intent i = new Intent(this,ViewConfiguracoes.class);
+                startActivity(i);
+                this.finish();
+                break;
 //                abrirConfiguracoes();
 //                break;
         }

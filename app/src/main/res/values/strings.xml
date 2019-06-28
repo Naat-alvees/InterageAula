@@ -5,19 +5,8 @@
     <string name="btnEntrar">Entrar</string>
     <string name="btnEntrarGoogle">Entrar com o Google</string>
     <string name="txtCadastrar">Não tenho cadastro</string>
-    <string name="txtDisciplina1">Português</string>
-    <string name="txtDisciplina2">Matemática</string>
-    <string name="txtDisciplina3">Biologia</string>
-    <string name="txtRoteiro1titulo">Aula de botões</string>
-    <string name="txtRoteiro1subtitulo">Roteiro 1</string>
-    <string name="txtRoteiro1data">14/05/2019</string>
-    <string name="txtRoteiro2titulo">Aula de layouts</string>
-    <string name="txtRoteiro2subtitulo">Roteiro 2</string>
-    <string name="txtRoteiro2data">21/05/2019</string>
-    <string name="txtDisciplina1titulo">Português</string>
-    <string name="txtDisciplina1descricao">Sua descrição aqui</string>
     <string name="txtAdicionaDisciplina">Digite aqui o código da disciplina informada pelo seu professor.</string>
     <string name="btnAdicionar">Adicionar</string>
-    <string name="txtResetar">Resetar aplicativo</string>
+    <string name="txtResetar">Apagar todas disciplinas</string>
 
 </resources>

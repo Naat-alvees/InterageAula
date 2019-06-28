@@ -34,6 +34,7 @@ public class ViewAdicionaDisciplina extends AppCompatActivity implements View.On
     private List<Disciplina> listaCodigos =  new ArrayList<>();
     private DatabaseReference referenciaDisciplinas = FirebaseDatabase.getInstance().getReference();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -37,8 +37,6 @@ public class AdapterRoteiros extends RecyclerView.Adapter<AdapterRoteiros.MyView
         myViewHolder.tituloRoteiro.setText(roteiro.getTituloRoteiro());
         myViewHolder.subtituloRoteiro.setText(roteiro.getSubtituloRoteiro());
         myViewHolder.dataRoteiro.setText(roteiro.getDataRoteiro());
-
-
     }
 
     @Override
@@ -56,6 +54,7 @@ public class AdapterRoteiros extends RecyclerView.Adapter<AdapterRoteiros.MyView
             tituloRoteiro = itemView.findViewById(R.id.tituloRoteiro);
             subtituloRoteiro = itemView.findViewById(R.id.subtituloRoteiro);
             dataRoteiro = itemView.findViewById(R.id.dataRoteiro);
+
         }
     }
 }
